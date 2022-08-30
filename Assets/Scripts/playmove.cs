@@ -34,9 +34,10 @@ public class playmove : MonoBehaviour
     private void Move()
     {
         isGrounded = Physics.CheckSphere(transform.position, groundCheckDistance, groundMask);
-
+       // isGrounded = true;
         if(isGrounded && velocity.y < 0 )
         {
+            Debug.Log("Isgrounded");
             velocity.y = -2f;
         }
 
@@ -45,6 +46,7 @@ public class playmove : MonoBehaviour
         moveDirection = new Vector3(0, 0, moveZ);
         if(isGrounded)
         {
+            Debug.Log("Isgrounded2");
             if (moveDirection != Vector3.zero && !Input.GetKey(KeyCode.LeftShift))
             {
                 Walk();
