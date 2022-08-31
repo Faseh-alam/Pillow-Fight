@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class playmove : MonoBehaviour
+public class Playmove : MonoBehaviour
 {
     //VARIABLE
 
@@ -18,6 +18,7 @@ public class playmove : MonoBehaviour
     [SerializeField] private LayerMask groundMask;
     [SerializeField] private float gravity;
 
+    [SerializeField] private float jumpHieght;
     //REFERENCES
     private CharacterController controller;
 
@@ -34,10 +35,9 @@ public class playmove : MonoBehaviour
     private void Move()
     {
         isGrounded = Physics.CheckSphere(transform.position, groundCheckDistance, groundMask);
-       // isGrounded = true;
+
         if(isGrounded && velocity.y < 0 )
         {
-            Debug.Log("Isgrounded");
             velocity.y = -2f;
         }
 
@@ -46,7 +46,6 @@ public class playmove : MonoBehaviour
         moveDirection = new Vector3(0, 0, moveZ);
         if(isGrounded)
         {
-            Debug.Log("Isgrounded2");
             if (moveDirection != Vector3.zero && !Input.GetKey(KeyCode.LeftShift))
             {
                 Walk();
@@ -63,9 +62,12 @@ public class playmove : MonoBehaviour
             }
 
             moveDirection *= moveSpeed;
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                jump();
+            }
         }
-
-
 
         controller.Move(moveDirection * Time.deltaTime);
 
@@ -85,5 +87,10 @@ public class playmove : MonoBehaviour
     private void Run()
     {
         moveSpeed = runSpeed;
+    }
+
+    private void jump()
+    {
+        velocity.y = Mathf.Sqrt(jumpHieght * -2 * gravity);
     }
 }
